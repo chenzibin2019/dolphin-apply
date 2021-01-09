@@ -1,0 +1,37 @@
+{extend name="public:layout" /}
+
+{block name="main-container"}
+<div class="page msg_success js_show">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">操作完成</h2>
+            <p class="weui-msg__desc">你已完成操作，现在可以关闭该页面了</p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__text">Copyright © 山东师范大学招生就业处</p>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js-part"}
+<script lang="javascript">
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{$jsapi["appId"]}', // 必填，公众号的唯一标识
+        timestamp: '{$jsapi["timestamp"]}', // 必填，生成签名的时间戳
+        nonceStr: '{$jsapi["nonceStr"]}', // 必填，生成签名的随机串
+        signature: '{$jsapi["signature"]}',// 必填，签名
+        jsApiList: [
+            'closeWindow'
+        ] // 必填，需要使用的JS接口列表
+    });
+
+    wx.ready(function() {
+        wx.closeWindow();
+    })
+</script>
+{/block}s

@@ -1,0 +1,54 @@
+{extend name="public:layout" /}
+
+{block name="main-container"}
+<div class="page msg_success js_show">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">你的面试时间地点为：<b>{$intervtime}</b>，如确定没问题请点击下方我确认按钮，<font color="red">确认后不可以再修改</font>！</h2>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                {if condition="$status == 1"}
+                    <a href="{:url('confirm_do', ['mid' => $mid])}" class="weui-btn weui-btn_primary">我确认并知晓确认后无法修改面试时间</a>
+                {else /}
+                    <a href="#!" disabled class="weui-btn weui-btn_primary">你已确认面试时间，不可修改</a>                
+                {/if}
+            </p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="javascript:void(0);" class="weui-footer__link">山东师范大学招生就业处提供技术支持</a>
+                </p>
+                <p class="weui-footer__text">Copyright © SDNU Admission Ofice</p>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+
+{block name="js-part"}
+<script lang="javascript">
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{$jsapi["appId"]}', // 必填，公众号的唯一标识
+        timestamp: '{$jsapi["timestamp"]}', // 必填，生成签名的时间戳
+        nonceStr: '{$jsapi["nonceStr"]}', // 必填，生成签名的随机串
+        signature: '{$jsapi["signature"]}',// 必填，签名
+        jsApiList: [
+            'hideAllNonBaseMenuItem', 'showMenuItems'
+        ] // 必填，需要使用的JS接口列表
+    });
+
+    wx.ready(function() {
+        wx.hideAllNonBaseMenuItem();
+        wx.showMenuItems({
+            menuList: [
+                'menuItem:favorite'
+            ]
+        })
+    })
+</script>
+{/block}

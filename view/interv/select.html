@@ -1,0 +1,55 @@
+{extend name="public:layout" /}
+
+{block name="main-container"}
+<div class="page input js_show">
+    <form action="{:url('select_do', ['mid' => $mid])}" method="POST">
+    <div class="page__hd">
+        <h1 class="">选择面试时间</h1>
+        <p class="page__desc">请选择面试时间，直接单击</p>
+    </div>
+    <div class="page__bd">
+        <div class="weui-cells__title">请选择面试时间</div>
+        <div class="weui-cells weui-cells_radio">
+            {volist name="interv" id="vo"}
+            <label class="weui-cell weui-check__label" for="{$vo.name}">
+                <div class="weui-cell__bd">
+                    <p>{$vo.name}{if condition="$vo.enabled == 0"}<font color="red">(已报满)</font>{else /}<font color="green">({$vo.remain})</font>{/if}</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input{if condition="$vo.enabled == 0"} disabled{/if} type="radio" name="interv" class="weui-check" id="{$vo.name}" value="{$vo.name}">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+            {/volist}
+        </div>
+
+
+        <div class="weui-btn-area">
+            <input type="submit" class="weui-btn weui-btn_primary" value="确认选择" id="showTooltips" />
+        </div>
+    </form>
+    </div>
+    <div class="page__ft">
+        <a href="javascript:home()"><img src="__MODULE_IMG__/icon_footer_link.png"></a>
+    </div>
+</div>
+{/block}
+
+{block name="js-part"}
+<script lang="javascript">
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{$jsapi["appId"]}', // 必填，公众号的唯一标识
+        timestamp: '{$jsapi["timestamp"]}', // 必填，生成签名的时间戳
+        nonceStr: '{$jsapi["nonceStr"]}', // 必填，生成签名的随机串
+        signature: '{$jsapi["signature"]}',// 必填，签名
+        jsApiList: [
+            'hideAllNonBaseMenuItem'
+        ] // 必填，需要使用的JS接口列表
+    });
+
+    wx.ready(function() {
+        wx.hideAllNonBaseMenuItem();
+    })
+</script>
+{/block}

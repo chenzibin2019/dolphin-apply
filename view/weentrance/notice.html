@@ -1,0 +1,21 @@
+{extend name="public:layout" /}
+
+{block name="main-container"}
+<div class="page article js_show">
+        <div class="page__hd">
+            <h1 class="">报名须知</h1>
+            <p class="page__desc">请仔细阅读完下列须知，阅读完毕后方可开始报名</p>
+        </div>
+        <div class="page__bd">
+            <article class="weui-article">
+                {$notice}
+            </article>
+        </div>
+        <div class="page__bd page__bd_spacing">
+                <a href="{:url('studentinput/questiontable', ['mid' => $mid])}" class="weui-btn weui-btn_primary">开始报名</a>
+        </div>
+        <div class="page__ft j_bottom">
+            <a href="javascript:home()"><img src="__MODULE_IMG__/icon_footer_link.png"></a>
+        </div>
+    </div>
+{/block}

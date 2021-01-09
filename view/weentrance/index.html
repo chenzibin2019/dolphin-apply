@@ -1,0 +1,194 @@
+{extend name="public:layout" /}
+
+{block name="main-container"}
+<div class="page panel js_show">
+    <div class="page__hd">
+        <h1 class="">{$model}网上报名管理系统</h1>
+        <p class="page__desc">欢迎{$name}使用本系统</p>
+    </div>
+    <div class="page__bd">
+        <div class="weui-panel">
+            <div class="weui-panel__hd">纳新流程</div>
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_small-appmsg">
+                    <div class="weui-cells">
+                        <a class="weui-cell weui-cell_access" href="{:url('notice', ['mid' => $mid])}">
+                            <div class="weui-cell__hd">
+                                <i class="fa fa-fw fa-arrow-circle-o-up"></i>
+                            </div>
+                            <div class="weui-cell__bd weui-cell_primary">
+                                <p>
+                                    <font color="red"><strong>报名须知（请点击阅读）</strong></font>
+                                </p>
+                            </div>
+                            <span class="weui-cell__ft"></span>
+                        </a>
+                        <a class="weui-cell weui-cell_access" href="{:url('studentinput/questiontable', ['mid' => $mid])}">
+                            <div class="weui-cell__hd">
+                                {if condition="$status == -2"}
+                                    <i class="fa fa-fw fa-arrow-circle-o-right"></i>
+                                    {else/}
+                                    <i class="fa fa-fw fa-check-circle-o"></i>
+                                {/if}
+                            </div>
+                            <div class="weui-cell__bd weui-cell_primary">
+                                <p>
+                                    {if condition="$status == -2"}
+                                        填写报名表
+                                        {else /}
+                                        <font color="green">查看报名表</font>
+                                    {/if}
+                                </p>
+                            </div>
+                            <span class="weui-cell__ft"></span>
+                        </a>
+                        <a class="weui-cell weui-cell_access" href="javascript:;">
+                            <div class="weui-cell__hd">
+                                {if condition="$status < 0"}
+                                    <i class="fa fa-fw fa-clock-o"></i>
+                                {/if}
+                                {if condition="$status == 0"}
+                                    <i class="fa fa-fw fa-arrow-circle-o-right"></i>
+                                {/if}
+                                {if condition="$status > 0"}
+                                    <i class="fa fa-fw fa-check-circle-o"></i>
+                                {/if}
+                            </div>
+                            <div class="weui-cell__bd weui-cell_primary">
+                                <p>
+                                    {if condition="$status > 0"}
+                                    <font color="green">网上初审已通过</font>
+                                        {else /}
+                                    网上初审                                        
+                                    {/if}
+                                </p>
+                            </div>
+                            <span class="weui-cell__ft"></span>
+                        </a>
+                        <a class="weui-cell weui-cell_access" href="{:url('Interv/confirmTime', ['mid' => $mid])}">
+                            <div class="weui-cell__hd">
+                                {if condition="$status < 1"}
+                                    <i class="fa fa-fw fa-clock-o"></i>
+                                {/if}
+                                {if condition="$status == 1"}
+                                    <i class="fa fa-fw fa-arrow-circle-o-right"></i>
+                                {/if}
+                                {if condition="$status > 1"}
+                                    <i class="fa fa-fw fa-check-circle-o"></i>
+                                {/if}
+                            </div>
+                            <div class="weui-cell__bd weui-cell_primary">
+                                <p>
+                                    {if condition="$status > 1"}
+                                    <font color="green">你已确认面试</font>
+                                        {else /}
+                                    面试时间查询/选择                                        
+                                    {/if}
+                                </p>
+                            </div>
+                            <span class="weui-cell__ft"></span>
+                        </a>
+                        <a class="weui-cell weui-cell_access" href="javascript:;">
+                            <div class="weui-cell__hd">
+                                {if condition="$status < 2"}
+                                    <i class="fa fa-fw fa-clock-o"></i>
+                                {/if}
+                                {if condition="$status == 2"}
+                                    <i class="fa fa-fw fa-arrow-circle-o-right"></i>
+                                {/if}
+                                {if condition="$status > 2"}
+                                    <i class="fa fa-fw fa-check-circle-o"></i>
+                                {/if}
+                            </div>
+                            <div class="weui-cell__bd weui-cell_primary">
+                                <p>
+                                    {if condition="$status > 2"}
+                                    <font color="green">你已完成面试</font>
+                                        {else /}
+                                    等待面试                                        
+                                    {/if}
+                                </p>
+                            </div>
+                            <span class="weui-cell__ft"></span>
+                        </a>
+                        <a class="weui-cell weui-cell_access" href="javascript:;">
+                            <div class="weui-cell__hd">
+                                {if condition="$status < 3"}
+                                    <i class="fa fa-fw fa-clock-o"></i>
+                                {/if}
+                                {if condition="$status == 3"}
+                                    <i class="fa fa-fw fa-arrow-circle-o-right"></i>
+                                {/if}
+                                {if condition="$status > 3"}
+                                    <i class="fa fa-fw fa-check-circle-o"></i>
+                                {/if}
+                            </div>
+                            <div class="weui-cell__bd weui-cell_primary">
+                                <p>
+                                    {if condition="$status > 3"}
+                                    <font color="green">面试结果已公布</font>
+                                        {else /}
+                                    等待结果                                        
+                                    {/if}
+                                </p>
+                            </div>
+                            <span class="weui-cell__ft"></span>
+                        </a>
+                        <a class="weui-cell weui-cell_access" href="javascript:;">
+                            <div class="weui-cell__hd">
+                                {if condition="$status < 4"}
+                                    <i class="fa fa-fw fa-clock-o"></i>
+                                {/if}
+                                {if condition="$status == 4"}
+                                    <i class="fa fa-fw fa-arrow-circle-o-right"></i>
+                                {/if}
+                                {if condition="$status > 4"}
+                                    <i class="fa fa-fw fa-check-circle-o"></i>
+                                {/if}
+                            </div>
+                            <div class="weui-cell__bd weui-cell_primary">
+                                <p>
+                                    {if condition="$status > 3"}
+                                    <font color="green">恭喜你通过审核，已被录用</font>
+                                        {else /}
+                                    等待最终结果                                        
+                                    {/if}
+                                </p>
+                            </div>
+                            <span class="weui-cell__ft"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page__ft">
+        <a href="javascript:home()"><img src="__MODULE_IMG__/icon_footer_link.png"></a>
+    </div>
+</div>
+{/block}
+
+
+{block name="js-part"}
+<script lang="javascript">
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{$jsapi["appId"]}', // 必填，公众号的唯一标识
+        timestamp: '{$jsapi["timestamp"]}', // 必填，生成签名的时间戳
+        nonceStr: '{$jsapi["nonceStr"]}', // 必填，生成签名的随机串
+        signature: '{$jsapi["signature"]}',// 必填，签名
+        jsApiList: [
+            'hideAllNonBaseMenuItem', 'showMenuItems'
+        ] // 必填，需要使用的JS接口列表
+    });
+
+    wx.ready(function() {
+        wx.hideAllNonBaseMenuItem();
+        wx.showMenuItems({
+            menuList: [
+                'menuItem:share:appMessage', 'menuItem:share:timeline', 'menuItem:favorite'
+            ]
+        })
+    })
+</script>
+{/block}

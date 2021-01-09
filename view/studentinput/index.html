@@ -1,0 +1,179 @@
+{extend name="public:layout" /}
+
+{block name="main-container"}
+<div class="page input js_show">
+    <div class="page__hd">
+        <h1 class="">{$name}</h1>
+        <p class="page__desc">{$title}</p>
+    </div>
+    <form method="POST" action="{:url('submitApply', ['mid' => $mid])}" >
+    <div class="page__bd">
+
+        {volist name="questions" id="vo"}
+            {switch name="$vo.type"}
+                {case value="1"} 
+                <div class="weui-cells__title">{$vo.name}</div>
+                <div class="weui-cells">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="{$vo.name}" placeholder="请输入{$vo.name}" {if condition="$action == 0"}value="{$student[$vo.name]}" {/if}>
+                        </div>
+                    </div>
+                </div>
+                {/case}
+                {case value="2"} 
+                <div class="weui-cells__title">{$vo.name}</div>
+                <div class="weui-cells weui-cells_radio">
+                    {foreach name="$vo.options" item="val"}
+                    <label class="weui-cell weui-check__label" for="{$val}">
+                        <div class="weui-cell__bd">
+                            <p>{$val}</p>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <input type="radio" class="weui-check" {if condition="$student[$vo.name] == $val"} checked{/if} name="{$vo.name}" value="{$val}" id="{$val}">
+                            <span class="weui-icon-checked"></span>
+                        </div>
+                    </label>
+                    {/foreach}
+                </div>
+                {/case}
+                {case value="3"} 
+                <div class="weui-cells__title">{$vo.name}</div>
+                <div class="weui-cells weui-cells_checkbox">
+                    {foreach name="$vo.options" item="val"}
+                    <label class="weui-cell weui-check__label" for="{$val}">
+                        <div class="weui-cell__hd">
+                            <input type="checkbox" class="weui-check" {if condition="$student[$vo.name] == $val"} checked{/if} name="{$vo.name}" id="{$val}">
+                            <i class="weui-icon-checked"></i>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <p>standard is dealt for u.</p>
+                        </div>
+                    </label>
+                    {/foreach}
+                </div>
+                {/case}
+                {case value="4"} 
+                <div class="weui-cells__title">{$vo.name}</div>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <textarea class="weui-textarea" name="{$vo.name}" placeholder="请输入{$vo.name}" rows="3">{$student[$vo.name]}</textarea>
+                            <div class="weui-textarea-counter">请注意控制字数</div>
+                        </div>
+                    </div>
+                </div>
+                {/case}
+                {case value="5"} 
+                <div class="weui-cells__title">{$vo.name}(请点击选择)</div>
+                <div class="weui-cells">
+                    <div class="weui-cell weui-cell_select">
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="{$vo.name}">
+                               <option value="-1">请选择</option>
+ 				 {foreach name="$vo.options" item="val"}
+                                <option value="{$val}" {if condition="$student[$vo.name] == $val"} selected{/if}>{$val}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {/case}
+            {/switch}
+        {/volist}
+
+        {if condition="$hasimg == 1 and $action == 1"}
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__hd">
+                        <p class="weui-uploader__title">个人照片(<span id="imginfo">点击上传</span>)</p>
+                        <div class="weui-uploader__info"><span id="number">0</span>/1</div>
+                    </div>
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files">
+                            <li id="uploaderFile" class="weui-uploader__file" style="background-image:url(__MODULE_IMG__/pic_160.png)" onclick="submFile();"></li>
+                            <input type="hidden" id="file" name="file" value="" />
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/if}
+    {if condition="$action == 1"}
+        <div class="weui-btn-area">
+            <input type="submit" class="weui-btn weui-btn_primary" id="showTooltips" value="提交报名表" />
+        </div>
+        {else /}
+        <div class="weui-btn-area">
+            <input type="submit" class="weui-btn weui-btn_primary" disabled id="showTooltips" value="不能编辑" />
+        </div>
+    {/if}
+    </div>
+    </form>
+    <div class="page__ft">
+        <a href="javascript:home()"><img src="__MODULE_IMG__/icon_footer_link.png"></a>
+    </div>
+</div>
+{/block}
+
+{block name="js-part"}
+<script lang="javascript">
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{$jsapi["appId"]}', // 必填，公众号的唯一标识
+        timestamp: '{$jsapi["timestamp"]}', // 必填，生成签名的时间戳
+        nonceStr: '{$jsapi["nonceStr"]}', // 必填，生成签名的随机串
+        signature: '{$jsapi["signature"]}',// 必填，签名
+        jsApiList: [
+            'chooseImage', 'uploadImage', 'hideAllNonBaseMenuItem', 'getLocalImgData'
+        ] // 必填，需要使用的JS接口列表
+    });
+    //console.log("{$apidebug}");
+    wx.ready(function() {
+        wx.hideAllNonBaseMenuItem();
+    })
+
+    function submFile() {
+        wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                wx.uploadImage({
+                    localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+                    isShowProgressTips: 1, // 默认为1，显示进度提示
+                    success: function (res) {
+                        var serverId = res.serverId; // 返回图片的服务器端ID
+                        $("#file").val(serverId);
+                        $("#uploaderFile").attr('style', 'background-image:url('+ localIds[0] +')');                                                
+                        $("#imginfo").html('你已经上传图片，点击替换');
+                        $("#number").html('1');  
+                        var u = navigator.userAgent;
+                        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                        //alert('是否是Android：'+isAndroid);
+                        //alert('是否是iOS：'+isiOS);
+                        if(isiOS) {
+                            wx.getLocalImgData({
+                                localId: localIds[0], // 图片的localID
+                                success: function (res) {
+                                    var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                    //alert(localData);
+                                    $("#uploaderFile").attr('style', 'background-image:url("'+ localData +'")');                                                                                
+                                },
+                                fail: function(res) {
+                                    alert(res);
+                                }
+                            
+                            });   
+                        }                   
+                        alert('你的图片上传成功！');
+                    }
+                });
+            }
+        }); 
+    }
+</script>
+{/block}
