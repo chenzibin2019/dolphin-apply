@@ -2,14 +2,14 @@ import requests, pymysql, os
 
 print('==== Processing IMS File =====')
 
-IMS_DIR = '/www/wwwroot/app.zsb.sdnuxmt.cn/application/apply/IMS'
+IMS_DIR = /path/to/ims/enterprise/file
 
 ims_data = {}
 membership_head = {}
 membership_body = {}
 people_body = {}
 
-db = pymysql.connect("localhost","bkzspy","86180685","bkzspy")
+db = pymysql.connect(DB_HOST,DB_USER,DB_PSWD,DB_NAME)
 cursor = db.cursor()
 
 for ims in os.listdir(IMS_DIR):
