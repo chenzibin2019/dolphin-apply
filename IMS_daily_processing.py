@@ -2,7 +2,7 @@ from xml.etree.ElementTree import Element, SubElement, ElementTree, tostring
 import requests, pymysql
 from xml.dom import minidom
 
-db = pymysql.connect("localhost","bkzspy","86180685","bkzspy")
+db = pymysql.connect(DB_HOST,DB_USER,DB_PSWD,DB_NAME)
 cursor = db.cursor()
 
 cursor.execute('select id,ims_min_status,ims_course_id,ims_student_email,ims_student_id,ims_student_name from bks_apply_model where write_ims=1')
